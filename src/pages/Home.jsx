@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const API_KEY = '8776cc9f66dd32d7c5ecc9b66eb74c99';
 
@@ -23,7 +23,7 @@ const Home = () => {
       <ul>
         {trendingMovies.map(item => (
           <li key={item.id}>
-            <NavLink to="/">{item.original_title}</NavLink>
+            <NavLink to={`/movies/${item.id}`}>{item.original_title}</NavLink>
           </li>
         ))}
       </ul>

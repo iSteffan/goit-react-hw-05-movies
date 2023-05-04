@@ -1,5 +1,5 @@
-import { Suspense } from 'react';
-import { Outlet } from 'react-router-dom';
+import { useRef } from 'react';
+import { useParams, useLocation, Link } from 'react-router-dom';
 
 // 1. http://localhost:3000/dogs?dogId=2
 // 2. http://localhost:3000/dogs/dog-2
@@ -8,9 +8,9 @@ import { Outlet } from 'react-router-dom';
 // 5. backLinkLocationRef не меняется и все еще ведет на http://localhost:3000/dogs?dogId=2
 
 const MovieDetails = () => {
-  //   const location = useLocation();
-  //   const backLinkLocationRef = useRef(location.state?.from ?? '/dogs');
-  //   const { dogId } = useParams();
+  const location = useLocation();
+  const backLinkLocationRef = useRef(location.state?.from ?? '/');
+  const { movieId } = useParams();
 
   // useEffect(() => {
   // HTTP запрос, если нужно
@@ -18,9 +18,9 @@ const MovieDetails = () => {
 
   return (
     <>
-      {/* <h1>DogDetails: {dogId}</h1>
+      <h1>MovieDetails: {movieId}</h1>
       <Link to={backLinkLocationRef.current}>Назад к странице коллекции</Link>
-      <ul>
+      {/* <ul>
         <li>
           <Link to="subbreeds">Подподроды</Link>
         </li>
@@ -28,9 +28,6 @@ const MovieDetails = () => {
           <Link to="gallery">Галерея</Link>
         </li>
       </ul> */}
-      <Suspense fallback={<div>LOADING SUBPAGE...</div>}>
-        <Outlet />
-      </Suspense>
     </>
   );
 };
