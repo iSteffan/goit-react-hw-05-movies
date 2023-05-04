@@ -1,1 +1,0 @@
-{"version":3,"file":"static/js/415.d8ddb1e9.chunk.js","mappings":"0JAQA,UARa,WAKX,OAAO,2IACR,C","sources":["pages/Home.jsx"],"sourcesContent":["const Home = () => {\n  // useEffect(() => {\n  // HTTP запрос, если нужно\n  // }, [])\n\n  return <div>Домашняя страница 🐷</div>;\n};\n\nexport default Home;\n"],"names":[],"sourceRoot":""}
