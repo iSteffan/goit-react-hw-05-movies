@@ -19,7 +19,7 @@ export const Layout = () => {
             <StyledLink to="/">Home</StyledLink>
           </li>
           <li>
-            <StyledLink to="/dogs">Movies</StyledLink>
+            <StyledLink to="/movies">Movies</StyledLink>
           </li>
         </ul>
       </header>

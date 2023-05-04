@@ -18,9 +18,8 @@ export const App = () => {
           <Route path="cast" element={<Cast />} />
           <Route path="reviews" element={<Reviews />} />
         </Route>
+        <Route path="*" element={<Home />} />
       </Route>
     </Routes>
   );
 };
-
-// const API_KEY = 8776cc9f66dd32d7c5ecc9b66eb74c99
