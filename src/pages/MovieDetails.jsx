@@ -1,24 +1,28 @@
 import { useRef, useEffect, useState } from 'react';
 import { useParams, useLocation, Link } from 'react-router-dom';
 import { getMovieById } from 'services/api';
+import { Wrapper, Image } from './MovieDetails.styled';
+import { Loader } from 'components/Loader/Loader';
 
 const MovieDetails = () => {
   const [movieInfo, setMovieInfo] = useState([]);
+  const [showLoader, setShowLoader] = useState(false);
 
   const location = useLocation();
   const backLinkLocationRef = useRef(location.state?.from ?? '/');
   const { movieId } = useParams();
 
   useEffect(() => {
+    setShowLoader(true);
     const fetchTrendingMovies = async movieId => {
       try {
         const data = await getMovieById(movieId);
         setMovieInfo(data);
       } catch (error) {
         console.log(error.message);
+      } finally {
+        setShowLoader(false);
       }
-      // finally {
-      // }
     };
 
     fetchTrendingMovies(movieId);
@@ -30,7 +34,6 @@ const MovieDetails = () => {
   const userScore = vote_average
     ? `${(vote_average * 10).toFixed(0)}%`
     : "This movie haven't rated yet";
-  // https://image.tmdb.org/t/p/original/
 
   const posterImg = poster_path
     ? `https://image.tmdb.org/t/p/w400/${poster_path}`
@@ -38,9 +41,10 @@ const MovieDetails = () => {
 
   return (
     <>
-      <Link to={backLinkLocationRef.current}>Назад к странице коллекции</Link>
-      <div>
-        <img src={posterImg} alt={original_title} />
+      <Link to={backLinkLocationRef.current}>Go back</Link>
+      {showLoader && <Loader />}
+      <Wrapper>
+        <Image src={posterImg} alt={original_title} />
         <div>
           <h2>{original_title}</h2>
           <p>User Score: {userScore}</p>
@@ -53,16 +57,7 @@ const MovieDetails = () => {
               genres.map(genre => genre.name).join(', ')}
           </p>
         </div>
-      </div>
-
-      {/* <ul>
-        <li>
-          <Link to="subbreeds">Подподроды</Link>
-        </li>
-        <li>
-          <Link to="gallery">Галерея</Link>
-        </li>
-      </ul> */}
+      </Wrapper>
     </>
   );
 };
