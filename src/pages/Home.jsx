@@ -1,33 +1,29 @@
 import { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
-
-const API_KEY = '8776cc9f66dd32d7c5ecc9b66eb74c99';
+import { getTrendingMovies } from 'services/api';
+import { TrendingMoviesGallery } from 'components/TrendingMoviesGallery/TrendingMoviesGallery';
 
 const Home = () => {
   const [trendingMovies, setTrendingMovies] = useState([]);
 
   useEffect(() => {
-    fetch(`https://api.themoviedb.org/3/trending/movie/day?api_key=${API_KEY}`)
-      .then(resp => resp.json())
-      .then(response => {
-        // console.log(response.results);
-        setTrendingMovies(response.results);
-      })
+    const fetchTrendingMovies = async () => {
+      try {
+        const { results } = await getTrendingMovies();
+        setTrendingMovies(results);
+      } catch (error) {
+        console.log(error.message);
+      }
+      // finally {
+      // }
+    };
 
-      .catch(error => console.error(error));
+    fetchTrendingMovies();
   }, []);
 
   return (
     <>
       <h2>Trending today</h2>
-      <ul>
-        {trendingMovies.map(item => (
-          <li key={item.id}>
-            <NavLink to={`/movies/${item.id}`}>{item.original_title}</NavLink>
-          </li>
-        ))}
-      </ul>
-      ;
+      <TrendingMoviesGallery movies={trendingMovies} />
     </>
   );
 };
