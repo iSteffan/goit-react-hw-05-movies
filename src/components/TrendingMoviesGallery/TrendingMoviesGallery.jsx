@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import { Image, List, MovieName } from './TrendingMoviesGallery.styled';
 
-export const TrendingMoviesGallery = ({ movies, location }) => {
+export const TrendingMoviesGallery = ({ movies }) => {
   //   const posterImg = movies.poster_path
   //     ? `https://image.tmdb.org/t/p/w400/${movies.poster_path}`
   //     : 'https://via.placeholder.com/400x600.png?text=Poster+Not+Available';

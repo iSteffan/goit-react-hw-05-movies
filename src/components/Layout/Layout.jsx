@@ -1,27 +1,19 @@
 import { Suspense } from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
-import styled from 'styled-components';
-
-const StyledLink = styled(NavLink)`
-  color: #212121;
-
-  &.active {
-    color: orangered;
-  }
-`;
+import { Outlet } from 'react-router-dom';
+import { List, Link } from './Layout.styled';
 
 export const Layout = () => {
   return (
     <>
       <header>
-        <ul>
+        <List>
           <li>
-            <StyledLink to="/">Home</StyledLink>
+            <Link to="/">Home</Link>
           </li>
           <li>
-            <StyledLink to="/movies">Movies</StyledLink>
+            <Link to="/movies">Movies</Link>
           </li>
-        </ul>
+        </List>
       </header>
       <main>
         <Suspense fallback={<div>Loading...</div>}>

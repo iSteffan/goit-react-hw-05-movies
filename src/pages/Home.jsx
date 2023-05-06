@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { getTrendingMovies } from 'services/api';
 import { TrendingMoviesGallery } from 'components/TrendingMoviesGallery/TrendingMoviesGallery';
 import { Loader } from 'components/Loader/Loader';
+import { Title } from './Home.styled';
 
 const Home = () => {
   const [trendingMovies, setTrendingMovies] = useState([]);
@@ -27,7 +28,7 @@ const Home = () => {
 
   return (
     <>
-      <h2>Trending today</h2>
+      <Title>Trending today</Title>
       {showLoader && <Loader />}
       {isContentDownloaded && <TrendingMoviesGallery movies={trendingMovies} />}
     </>
