@@ -1,5 +1,5 @@
-import { useRef, useEffect, useState } from 'react';
-import { useParams, useLocation, Link } from 'react-router-dom';
+import { useRef, useEffect, useState, Suspense } from 'react';
+import { useParams, useLocation, Link, Outlet } from 'react-router-dom';
 import { getMovieById } from 'services/api';
 import { Wrapper, Image } from './MovieDetails.styled';
 import { Loader } from 'components/Loader/Loader';
@@ -58,6 +58,17 @@ const MovieDetails = () => {
           </p>
         </div>
       </Wrapper>
+      <ul>
+        <li>
+          <Link to="cast">Cast</Link>
+        </li>
+        <li>
+          <Link to="reviews">Reviews</Link>
+        </li>
+      </ul>
+      <Suspense fallback={<div>LOADING SUBPAGE...</div>}>
+        <Outlet />
+      </Suspense>
     </>
   );
 };

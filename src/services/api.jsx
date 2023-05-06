@@ -19,25 +19,25 @@ export const getMovieById = async movieId => {
   return data;
 };
 
+export const getMovieCast = async movieId => {
+  const { data } = await axios.get(
+    `${BASE_URL}/3/movie/${movieId}/credits?api_key=${API_KEY}&language=en-US`
+  );
+
+  return data;
+};
+
+export const getMovieReviews = async movieId => {
+  const { data } = await axios.get(
+    `${BASE_URL}/3/movie/${movieId}}/reviews?api_key=${API_KEY}&language=en-US&page=1`
+  );
+
+  return data;
+};
+
 // export const getMovieByName = async query => {
 //   const { data } = await axios.get(
 //     `${baseURL}/3/search/movie?api_key=${API_KEY}&language=en-US&query=${query}&page=1&include_adult=false`
-//   );
-
-//   return data;
-// };
-
-// export const getMovieCast = async movieId => {
-//   const { data } = await axios.get(
-//     `${baseURL}/3/movie/${movieId}/credits?api_key=${API_KEY}&language=en-US`
-//   );
-
-//   return data;
-// };
-
-// export const getMovieReviews = async movieId => {
-//   const { data } = await axios.get(
-//     `${baseURL}/3/movie/${movieId}}/reviews?api_key=${API_KEY}&language=en-US&page=1`
 //   );
 
 //   return data;

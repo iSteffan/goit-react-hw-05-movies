@@ -1,5 +1,5 @@
-// import { useState } from 'react';
-// import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 
 const Movies = () => {
   //   const [dogs, setDogs] = useState([
@@ -9,27 +9,27 @@ const Movies = () => {
   //     'dog-4',
   //     'dog-5',
   //   ]);
-  //   const location = useLocation();
-  //   const [searchParams, setSearchParams] = useSearchParams();
-  //   const dogId = searchParams.get('dogId') ?? '';
+  const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const movieId = searchParams.get('movieId') ?? '';
 
   //   // useEffect(() => {
   //   // HTTP запрос, если нужно
   //   // }, []);
 
-  //   const updateQueryString = evt => {
-  //     const dogIdValue = evt.target.value;
-  //     if (dogIdValue === '') {
-  //       return setSearchParams({});
-  //     }
-  //     setSearchParams({ dogId: dogIdValue });
-  //   };
+  const updateQueryString = evt => {
+    const movieIdValue = evt.target.value;
+    if (movieIdValue === '') {
+      return setSearchParams({});
+    }
+    setSearchParams({ movieId: movieIdValue });
+  };
 
   //   const visibleDogs = dogs.filter(dog => dog.includes(dogId));
 
   return (
     <div>
-      <input type="text" />
+      <input type="text" value={movieId} onChange={updateQueryString} />
     </div>
   );
 };
