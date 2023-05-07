@@ -12,7 +12,7 @@ const Reviews = () => {
     const fetchMovieCast = async movieId => {
       try {
         const { results } = await getMovieReviews(movieId);
-        console.log(results);
+        // console.log(results);
         setReviews(results);
       } catch (error) {
         console.log(error.message);
@@ -25,7 +25,9 @@ const Reviews = () => {
     fetchMovieCast(movieId);
   }, [movieId]);
 
-  return (
+  return reviews.length === 0 ? (
+    <p>Sorry, there is no review for this movie</p>
+  ) : (
     <ul>
       {reviews.map(review => (
         <li key={review.id}>
@@ -38,3 +40,16 @@ const Reviews = () => {
 };
 
 export default Reviews;
+// return ({
+//   reviews.length === 0 ?
+//     (<p>no review</p>)
+//     :
+//     (<ul>
+//     {reviews.map(review => (
+//       <li key={review.id}>
+//         <h3>Author: {review.author}</h3>
+//         <p>{review.content}</p>
+//       </li>
+//     ))}
+//   </ul>)}
+// );
