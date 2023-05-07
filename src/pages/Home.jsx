@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getTrendingMovies } from 'services/api';
-import { TrendingMoviesGallery } from 'components/TrendingMoviesGallery/TrendingMoviesGallery';
+import { MoviesGallery } from 'components/MoviesGallery/MoviesGallery';
 import { Loader } from 'components/Loader/Loader';
 import { Title } from './Home.styled';
 
@@ -30,7 +30,7 @@ const Home = () => {
     <>
       <Title>Trending today</Title>
       {showLoader && <Loader />}
-      {isContentDownloaded && <TrendingMoviesGallery movies={trendingMovies} />}
+      {isContentDownloaded && <MoviesGallery movies={trendingMovies} />}
     </>
   );
 };
