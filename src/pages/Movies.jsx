@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { getMovieByKeyword } from 'services/api';
 import { MoviesGallery } from 'components/MoviesGallery/MoviesGallery';
@@ -6,6 +6,8 @@ import { MoviesGallery } from 'components/MoviesGallery/MoviesGallery';
 const Movies = () => {
   const [keyword, setKeyword] = useState('');
   const [foundMovies, setFoundMovies] = useState([]);
+  const [isFound, setIsFound] = useState(true);
+  // const btnRef = useRef();
 
   // const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -32,12 +34,14 @@ const Movies = () => {
 
   useEffect(() => {
     // setShowLoader(true);
-    const fetchMovieByKeyword = async movieId => {
+    const fetchMovieByKeyword = async keyword => {
       try {
-        const { results } = await getMovieByKeyword(keyword);
-        // console.log('results', results);
-        setFoundMovies(results);
-        // setMovieInfo(data);
+        const data = await getMovieByKeyword(keyword);
+        console.log('results', data);
+        if (data.total_results === 0) {
+          setIsFound(false);
+        }
+        setFoundMovies(data.results);
       } catch (error) {
         console.log(error.message);
       }
@@ -61,10 +65,10 @@ const Movies = () => {
         />
         <button type="submit">Search</button>
       </form>
-      {foundMovies.length === 0 ? (
-        <p>Sorry, we can't find any movies by tag {keyword}</p>
-      ) : (
+      {isFound ? (
         <MoviesGallery movies={foundMovies} />
+      ) : (
+        <p>Sorry, we can't find any movies by tag {keyword}</p>
       )}
     </div>
   );
