@@ -1,16 +1,18 @@
-import { useState, useEffect, useRef } from 'react';
-import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { getMovieByKeyword } from 'services/api';
 import { MoviesGallery } from 'components/MoviesGallery/MoviesGallery';
 
 const Movies = () => {
   const [foundMovies, setFoundMovies] = useState([]);
   const [isFound, setIsFound] = useState(true);
+  const [keyword, setKeyword] = useState('');
 
-  // const location = useLocation();
+  const location = useLocation();
+
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get('query') ?? '';
-  console.log('query', query);
+  // console.log('query', query);
 
   // Оновлюємо стрічку URL
   const updateQueryString = evt => {
@@ -21,10 +23,11 @@ const Movies = () => {
     setSearchParams({ query: queryValue });
   };
 
+  // Функція пошуку
   const fetchMovieByKeyword = async keyword => {
     try {
       const data = await getMovieByKeyword(keyword);
-      console.log('results', data);
+      // console.log('results', data);
       if (data.total_results === 0) {
         setIsFound(false);
         setFoundMovies([]);
@@ -40,33 +43,32 @@ const Movies = () => {
     // }
   };
 
+  // Пошук фільмів по сабміту
   const handleSubmit = e => {
     e.preventDefault();
 
+    setKeyword(e.target.elements.query.value);
     const key = e.target.elements.query.value;
     fetchMovieByKeyword(key);
   };
 
-  // useEffect(() => {
-  //   // setShowLoader(true);
-  //   const fetchMovieByKeyword = async keyword => {
-  //     try {
-  //       const data = await getMovieByKeyword(keyword);
-  //       console.log('results', data);
-  //       if (data.total_results === 0) {
-  //         setIsFound(false);
-  //       }
-  //       setFoundMovies(data.results);
-  //     } catch (error) {
-  //       console.log(error.message);
-  //     }
-  //     // finally {
-  //     //   setShowLoader(false);
-  //     // }
-  //   };
+  // запускаємо ефект нового запиту на бекенд при повернені на сторінку пошуку з сторінки деталей про фільм
+  useEffect(() => {
+    const a = location.state?.from ?? '';
+    if (a !== '') {
+      const fetchMovieByKeywordAgain = async keyword => {
+        try {
+          const { results } = await getMovieByKeyword(keyword);
+          setFoundMovies(results);
+        } catch (error) {
+          console.log(error.message);
+        }
+      };
 
-  //   fetchMovieByKeyword(keyword);
-  // }, [keyword]);
+      fetchMovieByKeywordAgain(query);
+    }
+    // setShowLoader(true);
+  }, [keyword, location.state?.from, query]);
 
   return (
     <div>

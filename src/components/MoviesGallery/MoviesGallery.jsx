@@ -3,6 +3,7 @@ import { Image, List, MovieName } from './MoviesGallery.styled';
 
 export const MoviesGallery = ({ movies }) => {
   const location = useLocation();
+  // console.log('location', location);
 
   return (
     <List>

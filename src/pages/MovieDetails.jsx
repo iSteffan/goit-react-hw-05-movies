@@ -11,6 +11,7 @@ const MovieDetails = () => {
   const location = useLocation();
   const backLinkLocationRef = useRef(location.state?.from ?? '/');
   const { movieId } = useParams();
+  // console.log('locationDetails', location);
 
   useEffect(() => {
     setShowLoader(true);
@@ -41,7 +42,9 @@ const MovieDetails = () => {
 
   return (
     <>
-      <Link to={backLinkLocationRef.current}>Go back</Link>
+      <Link to={backLinkLocationRef.current} state={{ from: 'MovieDetails' }}>
+        Go back
+      </Link>
       {showLoader && <Loader />}
       <Wrapper>
         <Image src={posterImg} alt={original_title} />
