@@ -4,61 +4,76 @@ import { getMovieByKeyword } from 'services/api';
 import { MoviesGallery } from 'components/MoviesGallery/MoviesGallery';
 
 const Movies = () => {
-  const [keyword, setKeyword] = useState('');
   const [foundMovies, setFoundMovies] = useState([]);
   const [isFound, setIsFound] = useState(true);
-  // const btnRef = useRef();
 
   // const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
-  const movieId = searchParams.get('movieId') ?? '';
+  const query = searchParams.get('query') ?? '';
+  console.log('query', query);
 
-  //   // useEffect(() => {
-  //   // HTTP запрос, если нужно
-  //   // }, []);
-
+  // Оновлюємо стрічку URL
   const updateQueryString = evt => {
-    const movieIdValue = evt.target.value;
-    if (movieIdValue === '') {
+    const queryValue = evt.target.value;
+    if (queryValue === '') {
       return setSearchParams({});
     }
-    setSearchParams({ movieId: movieIdValue });
+    setSearchParams({ query: queryValue });
+  };
+
+  const fetchMovieByKeyword = async keyword => {
+    try {
+      const data = await getMovieByKeyword(keyword);
+      console.log('results', data);
+      if (data.total_results === 0) {
+        setIsFound(false);
+        setFoundMovies([]);
+      } else {
+        setIsFound(true);
+        setFoundMovies(data.results);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+    // finally {
+    //   setShowLoader(false);
+    // }
   };
 
   const handleSubmit = e => {
     e.preventDefault();
-    // console.log(e.target.elements.query.value);
 
-    setKeyword(e.target.elements.query.value);
+    const key = e.target.elements.query.value;
+    fetchMovieByKeyword(key);
   };
 
-  useEffect(() => {
-    // setShowLoader(true);
-    const fetchMovieByKeyword = async keyword => {
-      try {
-        const data = await getMovieByKeyword(keyword);
-        console.log('results', data);
-        if (data.total_results === 0) {
-          setIsFound(false);
-        }
-        setFoundMovies(data.results);
-      } catch (error) {
-        console.log(error.message);
-      }
-      // finally {
-      //   setShowLoader(false);
-      // }
-    };
+  // useEffect(() => {
+  //   // setShowLoader(true);
+  //   const fetchMovieByKeyword = async keyword => {
+  //     try {
+  //       const data = await getMovieByKeyword(keyword);
+  //       console.log('results', data);
+  //       if (data.total_results === 0) {
+  //         setIsFound(false);
+  //       }
+  //       setFoundMovies(data.results);
+  //     } catch (error) {
+  //       console.log(error.message);
+  //     }
+  //     // finally {
+  //     //   setShowLoader(false);
+  //     // }
+  //   };
 
-    fetchMovieByKeyword(keyword);
-  }, [keyword]);
+  //   fetchMovieByKeyword(keyword);
+  // }, [keyword]);
 
   return (
     <div>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          value={movieId}
+          value={query}
           onChange={updateQueryString}
           name="query"
           placeholder="Search movies"
@@ -68,7 +83,7 @@ const Movies = () => {
       {isFound ? (
         <MoviesGallery movies={foundMovies} />
       ) : (
-        <p>Sorry, we can't find any movies by tag {keyword}</p>
+        <p>Sorry, we can't find any movies by this tag</p>
       )}
     </div>
   );
