@@ -54,8 +54,8 @@ const Movies = () => {
 
   // запускаємо ефект нового запиту на бекенд при повернені на сторінку пошуку з сторінки деталей про фільм
   useEffect(() => {
-    const a = location.state?.from ?? '';
-    if (a !== '') {
+    const followFromDetails = location.state?.from ?? '';
+    if (followFromDetails !== '') {
       const fetchMovieByKeywordAgain = async keyword => {
         try {
           const { results } = await getMovieByKeyword(keyword);

@@ -24,7 +24,9 @@ const Cast = () => {
     fetchMovieCast(movieId);
   }, [movieId]);
 
-  return (
+  return cast.length === 0 ? (
+    <p>Sorry, Cast is not available for this movie</p>
+  ) : (
     <List>
       {cast.map(actor => (
         <li key={actor.cast_id}>
