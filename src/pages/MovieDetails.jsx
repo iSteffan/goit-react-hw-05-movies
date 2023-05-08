@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState, Suspense } from 'react';
 import { useParams, useLocation, Link, Outlet } from 'react-router-dom';
 import { getMovieById } from 'services/api';
-import { Wrapper, Image } from './MovieDetails.styled';
+import { Wrapper, Image, LinkBack, List } from './MovieDetails.styled';
 import { Loader } from 'components/Loader/Loader';
 
 const MovieDetails = () => {
@@ -44,9 +44,12 @@ const MovieDetails = () => {
 
   return (
     <>
-      <Link to={backLinkLocationRef.current} state={{ from: 'MovieDetails' }}>
+      <LinkBack
+        to={backLinkLocationRef.current}
+        state={{ from: 'MovieDetails' }}
+      >
         Go back
-      </Link>
+      </LinkBack>
 
       {showLoader && <Loader />}
 
@@ -67,14 +70,14 @@ const MovieDetails = () => {
               </p>
             </div>
           </Wrapper>
-          <ul>
+          <List>
             <li>
               <Link to="cast">Cast</Link>
             </li>
             <li>
               <Link to="reviews">Reviews</Link>
             </li>
-          </ul>
+          </List>
         </>
       )}
 

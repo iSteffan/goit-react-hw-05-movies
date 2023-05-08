@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getMovieReviews } from 'services/api';
 import { Loader } from 'components/Loader/Loader';
+import { NoData, List } from './Reviews.styled';
 
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
@@ -31,16 +32,16 @@ const Reviews = () => {
     <>
       {showLoader && <Loader />}
       {isContentDownloaded && reviews.length === 0 ? (
-        <p>Sorry, there is no review for this movie</p>
+        <NoData>Sorry, there is no review for this movie</NoData>
       ) : (
-        <ul>
+        <List>
           {reviews.map(review => (
             <li key={review.id}>
               <h3>Author: {review.author}</h3>
               <p>{review.content}</p>
             </li>
           ))}
-        </ul>
+        </List>
       )}
     </>
   );

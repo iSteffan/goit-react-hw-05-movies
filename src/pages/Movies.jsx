@@ -3,6 +3,7 @@ import { useLocation, useSearchParams } from 'react-router-dom';
 import { getMovieByKeyword } from 'services/api';
 import { MoviesGallery } from 'components/MoviesGallery/MoviesGallery';
 import { Loader } from 'components/Loader/Loader';
+import { Input, Btn } from './Movies.styled';
 
 const Movies = () => {
   const [foundMovies, setFoundMovies] = useState([]);
@@ -29,7 +30,6 @@ const Movies = () => {
   const fetchMovieByKeyword = async keyword => {
     setShowLoader(true);
     setFoundMovies([]);
-
     try {
       const data = await getMovieByKeyword(keyword);
       // console.log('results', data);
@@ -81,14 +81,14 @@ const Movies = () => {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <input
+        <Input
           type="text"
           value={query}
           onChange={updateQueryString}
           name="query"
           placeholder="Search movies"
         />
-        <button type="submit">Search</button>
+        <Btn type="submit">Search</Btn>
       </form>
 
       {showLoader && <Loader />}

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getMovieCast } from 'services/api';
-import { Image, List } from './Cast.styled';
+import { Image, List, ListItem, NoData } from './Cast.styled';
 import { Loader } from 'components/Loader/Loader';
 
 const Cast = () => {
@@ -32,11 +32,11 @@ const Cast = () => {
     <>
       {showLoader && <Loader />}
       {isContentDownloaded && cast.length === 0 ? (
-        <p>Sorry, Cast is not available for this movie</p>
+        <NoData>Sorry, Cast is not available for this movie</NoData>
       ) : (
         <List>
           {cast.map(actor => (
-            <li key={actor.cast_id}>
+            <ListItem key={actor.cast_id}>
               {actor.profile_path ? (
                 <Image
                   src={`https://image.tmdb.org/t/p/w400/${actor.profile_path}`}
@@ -52,7 +52,7 @@ const Cast = () => {
               )}
               <h3>{actor.name}</h3>
               <p>Character: {actor.character}</p>
-            </li>
+            </ListItem>
           ))}
         </List>
       )}
