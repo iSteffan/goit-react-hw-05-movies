@@ -1,5 +1,6 @@
 import { NavLink, useLocation } from 'react-router-dom';
 import { Image, List, MovieName } from './MoviesGallery.styled';
+import PropTypes from 'prop-types';
 
 export const MoviesGallery = ({ movies }) => {
   const location = useLocation();
@@ -30,3 +31,5 @@ export const MoviesGallery = ({ movies }) => {
     </List>
   );
 };
+
+MoviesGallery.propTypes = { movies: PropTypes.array };

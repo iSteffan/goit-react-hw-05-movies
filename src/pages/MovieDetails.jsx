@@ -7,6 +7,7 @@ import { Loader } from 'components/Loader/Loader';
 const MovieDetails = () => {
   const [movieInfo, setMovieInfo] = useState([]);
   const [showLoader, setShowLoader] = useState(false);
+  const [isContentDownloaded, setIsContentDownloaded] = useState(false);
 
   const location = useLocation();
   const backLinkLocationRef = useRef(location.state?.from ?? '/');
@@ -23,6 +24,7 @@ const MovieDetails = () => {
         console.log(error.message);
       } finally {
         setShowLoader(false);
+        setIsContentDownloaded(true);
       }
     };
 
@@ -45,30 +47,37 @@ const MovieDetails = () => {
       <Link to={backLinkLocationRef.current} state={{ from: 'MovieDetails' }}>
         Go back
       </Link>
+
       {showLoader && <Loader />}
-      <Wrapper>
-        <Image src={posterImg} alt={original_title} />
-        <div>
-          <h2>{original_title}</h2>
-          <p>User Score: {userScore}</p>
-          <h3>Overview</h3>
-          <p>{overview}</p>
-          <h3>Genres</h3>
-          <p>
-            {genres &&
-              genres.length > 0 &&
-              genres.map(genre => genre.name).join(', ')}
-          </p>
-        </div>
-      </Wrapper>
-      <ul>
-        <li>
-          <Link to="cast">Cast</Link>
-        </li>
-        <li>
-          <Link to="reviews">Reviews</Link>
-        </li>
-      </ul>
+
+      {isContentDownloaded && (
+        <>
+          <Wrapper>
+            <Image src={posterImg} alt={original_title} />
+            <div>
+              <h2>{original_title}</h2>
+              <p>User Score: {userScore}</p>
+              <h3>Overview</h3>
+              <p>{overview}</p>
+              <h3>Genres</h3>
+              <p>
+                {genres &&
+                  genres.length > 0 &&
+                  genres.map(genre => genre.name).join(', ')}
+              </p>
+            </div>
+          </Wrapper>
+          <ul>
+            <li>
+              <Link to="cast">Cast</Link>
+            </li>
+            <li>
+              <Link to="reviews">Reviews</Link>
+            </li>
+          </ul>
+        </>
+      )}
+
       <Suspense>
         <Outlet />
       </Suspense>

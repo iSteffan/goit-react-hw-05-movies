@@ -2,11 +2,13 @@ import { useState, useEffect } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { getMovieByKeyword } from 'services/api';
 import { MoviesGallery } from 'components/MoviesGallery/MoviesGallery';
+import { Loader } from 'components/Loader/Loader';
 
 const Movies = () => {
   const [foundMovies, setFoundMovies] = useState([]);
   const [isFound, setIsFound] = useState(true);
   const [keyword, setKeyword] = useState('');
+  const [showLoader, setShowLoader] = useState(false);
 
   const location = useLocation();
 
@@ -25,9 +27,13 @@ const Movies = () => {
 
   // Функція пошуку
   const fetchMovieByKeyword = async keyword => {
+    setShowLoader(true);
+    setFoundMovies([]);
+
     try {
       const data = await getMovieByKeyword(keyword);
       // console.log('results', data);
+      // Перевіряємо чи знайшли щось за ключовим словом
       if (data.total_results === 0) {
         setIsFound(false);
         setFoundMovies([]);
@@ -37,10 +43,9 @@ const Movies = () => {
       }
     } catch (error) {
       console.log(error.message);
+    } finally {
+      setShowLoader(false);
     }
-    // finally {
-    //   setShowLoader(false);
-    // }
   };
 
   // Пошук фільмів по сабміту
@@ -56,18 +61,21 @@ const Movies = () => {
   useEffect(() => {
     const followFromDetails = location.state?.from ?? '';
     if (followFromDetails !== '') {
+      setShowLoader(true);
+
       const fetchMovieByKeywordAgain = async keyword => {
         try {
           const { results } = await getMovieByKeyword(keyword);
           setFoundMovies(results);
         } catch (error) {
           console.log(error.message);
+        } finally {
+          setShowLoader(false);
         }
       };
 
       fetchMovieByKeywordAgain(query);
     }
-    // setShowLoader(true);
   }, [keyword, location.state?.from, query]);
 
   return (
@@ -82,6 +90,9 @@ const Movies = () => {
         />
         <button type="submit">Search</button>
       </form>
+
+      {showLoader && <Loader />}
+
       {isFound ? (
         <MoviesGallery movies={foundMovies} />
       ) : (

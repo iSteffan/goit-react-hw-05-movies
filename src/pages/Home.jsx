@@ -29,7 +29,9 @@ const Home = () => {
   return (
     <>
       <Title>Trending today</Title>
+
       {showLoader && <Loader />}
+
       {isContentDownloaded && <MoviesGallery movies={trendingMovies} />}
     </>
   );
